@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>JScriptNeptunkod</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .blokk {
+            border: 1px solid #444;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: #f4f4f4;
+        }
+
+        .sor {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Órarend adatok</h1>
+
+    <div id="kimenet"></div>
+
+    <script>
+        fetch("orarendNeptunkod.json")
+            .then(response => response.json())
+            .then(adatok => {
+
+                const kimenet = document.getElementById("kimenet");
+
+                // Feltételezve, hogy a JSON tömb objektumokat tartalmaz
+                adatok.forEach(objektum => {
+
+                    let blokk = document.createElement("div");
+                    blokk.className = "blokk";
+
+                    // Objektum mezőinek kiírása
+                    for (let kulcs in objektum) {
+
+                        let sor = document.createElement("div");
+                        sor.className = "sor";
+
+                        sor.innerHTML = "<b>" + kulcs + "</b>: " + objektum[kulcs];
+
+                        blokk.appendChild(sor);
+                    }
+
+                    kimenet.appendChild(blokk);
+                });
+
+            })
+            .catch(error => {
+                console.error("Hiba a JSON beolvasása során:", error);
+            });
+    </script>
+
+</body>
+</html>
